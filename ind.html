@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Travel-X Booking Form</title>
+  <style>
+    /* Upgraded Stylish Modern UI */
+    :root{--accent:#5b4bdb;--accent2:#ff7ae5;--bg:#f2f3ff;--card:#ffffff;--muted:#6c6f8c}
+    *{box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{margin:0;background:var(--bg);color:#111;}
+    .container{max-width:900px;margin:40px auto;padding:24px}
+    .card{background:var(--card);border-radius:18px;box-shadow:0 12px 30px rgba(20,20,70,0.08);padding:30px;border:1px solid rgba(90,80,200,0.08);backdrop-filter:blur(6px)}
+    h1{font-size:26px;margin:0 0 12px;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;color:transparent}
+    p.lead{color:var(--muted);margin:0 0 24px;font-size:14px}
+    form{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:10px}
+    label{display:block;font-size:13px;margin-bottom:6px;color:#333;font-weight:600}
+    input,select,textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(150,150,200,0.25);font-size:14px;background:#fafaff;transition:0.15s}
+    input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(90,80,200,0.15);outline:none;background:white}
+    textarea{min-height:90px;resize:vertical}
+    .full{grid-column:1/-1}
+    .row{display:flex;gap:10px}
+    .small{flex:1}
+    .actions{display:flex;justify-content:space-between;align-items:center;grid-column:1/-1;margin-top:14px}
+    .btn{background:var(--accent);color:#fff;padding:12px 20px;border-radius:12px;border:0;cursor:pointer;font-weight:600;font-size:14px;transition:0.2s}
+    .btn:hover{background:#4a3ccd;transform:translateY(-2px)}
+    .btn.ghost{background:rgba(90,80,200,0.08);color:var(--accent);border:1px solid rgba(90,80,200,0.15)}
+    .btn.ghost:hover{background:rgba(90,80,200,0.18)}
+    .note{font-size:13px;color:var(--muted)}
+    .error{color:#d93025;font-size:12px;margin-top:4px}
+    @media(max-width:720px){form{grid-template-columns:1fr};.actions{flex-direction:column;gap:10px;align-items:stretch}}
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="card" role="region" aria-labelledby="form-title">
+      <h1 id="form-title">Travel-X Booking Form</h1>
+      <p class="lead">Saaf, responsive booking form — client-side validation, date checks, passenger selector, aur ek chhota payment placeholder. Copy-paste kar ke apni site me laga lo.</p>
+
+      <form id="bookingForm" novalidate>
+        <!-- Passenger / Contact -->
+        <div>
+          <label for="fullName">Full name</label>
+          <input id="fullName" name="fullName" type="text" placeholder="Ali Khan" required aria-required="true" />
+          <div class="error" data-for="fullName"></div>
+        </div>
+
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="name@example.com" required />
+          <div class="error" data-for="email"></div>
+        </div>
+
+        <div>
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="tel" placeholder="+92 300 1234567" inputmode="tel" required />
+          <div class="error" data-for="phone"></div>
+        </div>
+
+        <div>
+          <label for="travelClass">Travel class</label>
+          <select id="travelClass" name="travelClass">
+            <option value="economy">Economy</option>
+            <option value="premium">Premium Economy</option>
+            <option value="business">Business</option>
+            <option value="first">First</option>
+          </select>
+        </div>
+
+        <!-- Origin / Destination -->
+        <div>
+          <label for="origin">Origin (city or airport)</label>
+          <input id="origin" name="origin" type="text" placeholder="Lahore (LHE)" required />
+          <div class="error" data-for="origin"></div>
+        </div>
+
+        <div>
+          <label for="destination">Destination</label>
+          <input id="destination" name="destination" type="text" placeholder="Istanbul (IST)" required />
+          <div class="error" data-for="destination"></div>
+        </div>
+
+        <div>
+          <label for="tripType">Trip type</label>
+          <select id="tripType" name="tripType" aria-controls="returnDate">
+            <option value="oneway">One-way</option>
+            <option value="round">Round-trip</option>
+            <option value="multi">Multi-city</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="passengers">Passengers</label>
+          <div class="row">
+            <input id="passengers" name="passengers" type="number" min="1" max="9" value="1" class="small" />
+            <select id="cabin" name="cabin" class="small">
+              <option value="adult">Adult</option>
+              <option value="child">Child</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="departDate">Departure date</label>
+          <input id="departDate" name="departDate" type="date" required />
+          <div class="error" data-for="departDate"></div>
+        </div>
+
+        <div id="returnContainer">
+          <label for="returnDate">Return date</label>
+          <input id="returnDate" name="returnDate" type="date" />
+          <div class="error" data-for="returnDate"></div>
+        </div>
+
+        <div class="full">
+          <label for="requests">Special requests / notes</label>
+          <textarea id="requests" name="requests" placeholder="Window seat, vegetarian meal..."></textarea>
+        </div>
+
+        <div>
+          <label for="upload">Upload ID (optional)</label>
+          <input id="upload" name="upload" type="file" accept="image/*,.pdf" />
+          <p class="note">Max file size 4MB. Only images or PDF.</p>
+        </div>
+
+        <div>
+          <label for="promo">Promo code</label>
+          <input id="promo" name="promo" type="text" placeholder="TRAVELX10" />
+        </div>
+
+        <!-- Payment placeholder (not real payment) -->
+        <div class="full">
+          <label>Payment (demo)</label>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button type="button" class="btn ghost" id="payCard">Pay by Card (demo)</button>
+            <button type="button" class="btn ghost" id="payWallet">Pay by Wallet (demo)</button>
+          </div>
+          <p class="note">This is a placeholder. Integrate your gateway (Stripe, PayFast, PayPal, etc.) on server side.</p>
+        </div>
+
+        <div class="actions">
+          <div class="note">By submitting you agree to Travel-X terms.</div>
+          <div style="display:flex;gap:8px">
+            <button type="reset" class="btn ghost">Reset</button>
+            <button type="submit" class="btn">Book Now</button>
+          </div>
+        </div>
+      </form>
+
+      <div id="result" aria-live="polite" style="margin-top:12px"></div>
+    </div>
+  </div>
+
+  <script>
+    // Basic client-side validation + logic. Replace with your server endpoints.
+    const form = document.getElementById('bookingForm');
+    const tripType = document.getElementById('tripType');
+    const returnContainer = document.getElementById('returnContainer');
+    const result = document.getElementById('result');
+
+    function showError(name, msg){
+      const el = document.querySelector('.error[data-for="'+name+'"]');
+      if(el) el.textContent = msg || '';
+    }
+
+    function clearErrors(){
+      document.querySelectorAll('.error').forEach(e => e.textContent = '');
+    }
+
+    function parseDate(v){ return v ? new Date(v + 'T00:00:00') : null }
+
+    function validate(){
+      clearErrors();
+      let ok = true;
+      const fullName = form.fullName.value.trim();
+      const email = form.email.value.trim();
+      const phone = form.phone.value.trim();
+      const origin = form.origin.value.trim();
+      const destination = form.destination.value.trim();
+      const depart = parseDate(form.departDate.value);
+      const returnD = parseDate(form.returnDate.value);
+
+      if(fullName.length < 3){ showError('fullName', 'Naam zyada chota hai'); ok=false }
+      if(!/^\S+@\S+\.\S+$/.test(email)){ showError('email', 'Valid email do'); ok=false }
+      if(!/^\+?[0-9\s\-]{7,15}$/.test(phone)){ showError('phone', 'Valid phone number do'); ok=false }
+      if(origin.length < 2){ showError('origin', 'Origin daal'); ok=false }
+      if(destination.length < 2){ showError('destination', 'Destination daal'); ok=false }
+      if(!depart){ showError('departDate','Departure date select karo'); ok=false }
+      else{
+        const today = new Date(); today.setHours(0,0,0,0);
+        if(depart < today){ showError('departDate','Departure must be future date'); ok=false }
+      }
+
+      if(form.tripType.value === 'round'){
+        if(!returnD){ showError('returnDate','Return date select karo for round-trip'); ok=false }
+        else if(returnD <= depart){ showError('returnDate','Return must be after departure'); ok=false }
+      }
+
+      return ok;
+    }
+
+    // show/hide return date depending on trip type
+    tripType.addEventListener('change', () => {
+      if(tripType.value === 'round'){
+        returnContainer.style.display = '';
+        document.getElementById('returnDate').required = true;
+      } else {
+        returnContainer.style.display = 'none';
+        document.getElementById('returnDate').required = false;
+        showError('returnDate','');
+      }
+    });
+
+    // Initialize
+    tripType.dispatchEvent(new Event('change'));
+
+    form.addEventListener('submit', (ev) =>{
+      ev.preventDefault();
+      result.textContent = '';
+      if(!validate()){
+        result.innerHTML = '<div class="error">Kuch fields galat hain — upar errors dekho.</div>';
+        return;
+      }
+
+      // prepare payload (demo)
+      const payload = new FormData(form);
+      const obj = {};
+      for(const [k,v] of payload.entries()){
+        obj[k] = v;
+      }
+
+      // Demo: show the booking summary. Replace this with a fetch() to your server.
+      result.innerHTML = `\n        <div style="background:#f1f8ff;border:1px solid rgba(0,102,204,0.08);padding:12px;border-radius:8px">\n          <strong>Booking ready:</strong> ${obj.fullName} — ${obj.origin} → ${obj.destination}<br>\n          <small class=\"note\">Depart: ${obj.departDate}${obj.returnDate ? ' — Return: ' + obj.returnDate : ''} · Passengers: ${obj.passengers}</small>\n        </div>`;
+
+      // reset or keep form — here we keep the form so user can tweak.
+
+      // If you had a server endpoint:
+      // fetch('/api/book', {method:'POST', body: payload}).then(...) etc.
+    });
+
+    // tiny demo hooks for payment buttons
+    document.getElementById('payCard').addEventListener('click', ()=>{
+      alert('Demo payment: integrate real gateway on server.');
+    });
+    document.getElementById('payWallet').addEventListener('click', ()=>{
+      alert('Demo payment: integrate wallet provider.');
+    });
+
+  </script>
+</body>
+</html>
